@@ -1,300 +1,286 @@
-<p align="center">
-  <a href="https://sentry-ids.onrender.com" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_Live_Demo-Try_SENTRY--IDS-success?style=for-the-badge" alt="Live Demo">
-  </a>
-</p>
-
-<p align="center">
-  <strong>🔗 Live Application:</strong><br>
-  https://sentry-ids.onrender.com
-</p>
+<div align="center">
 
 # 🛡️ SENTRY-IDS
-### Intelligent Network Intrusion Detection System
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-green)
-![Status](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+### *Intelligent Network Intrusion Detection System*
 
-SENTRY-IDS is an intelligent **Intrusion Detection System (IDS)** designed to monitor network traffic, identify suspicious activities, and assist security analysts in detecting potential cyber threats in real time.
+**Detect Early. Respond Faster. Stay Secure.**
 
-The project combines traditional detection techniques with modern cybersecurity concepts to provide an easy-to-use platform for students, researchers, and cybersecurity professionals.
+<br>
 
----
+[![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_SENTRY--IDS-brightgreen?style=for-the-badge)](https://sentry-ids.onrender.com)
 
-# 📖 Overview
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-Modern networks face countless attacks every day, ranging from brute-force attempts to malware communication and unauthorized access.
+<br>
 
-SENTRY-IDS helps users:
+[![Stars](https://img.shields.io/github/stars/kharedhruva-tech/SENTRY-IDS?style=social)](https://github.com/kharedhruva-tech/SENTRY-IDS)
+[![Forks](https://img.shields.io/github/forks/kharedhruva-tech/SENTRY-IDS?style=social)](https://github.com/kharedhruva-tech/SENTRY-IDS)
+[![Issues](https://img.shields.io/github/issues/kharedhruva-tech/SENTRY-IDS?color=red)](https://github.com/kharedhruva-tech/SENTRY-IDS/issues)
 
-- 🔍 Monitor network traffic
-- 🚨 Detect suspicious activities
-- 📊 Visualize security events
-- 📝 Generate detailed logs
-- 📈 Improve network visibility
-- 🛡️ Strengthen defensive security
+</div>
 
----
+<br>
 
-# ✨ Features
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/main/images/aa8b241d-abf6-4cc9-9b40-e2fe6b57af71.gif" width="700" alt="Security Banner">
+</p>
 
-- Real-time network monitoring
-- Intrusion detection engine
-- Packet inspection
-- Event logging
-- Alert generation
-- User-friendly interface
-- Modular architecture
-- Lightweight and scalable
-- Easy deployment
-- Beginner-friendly project structure
+<div align="center">
+
+**🔗 Live Application → [sentry-ids.onrender.com](https://sentry-ids.onrender.com)**
+
+</div>
 
 ---
 
-# 🎯 Objectives
+## 📖 Overview
 
-The primary goal of SENTRY-IDS is to:
+Modern networks face countless attacks every day — from brute-force attempts to malware communication and unauthorized access.
 
-- Detect malicious network activities.
-- Reduce response time during security incidents.
-- Provide a practical learning platform for cybersecurity enthusiasts.
-- Demonstrate IDS concepts using Python.
-- Help users understand network-based attacks.
+**SENTRY-IDS** is an intelligent Intrusion Detection System that monitors network traffic, identifies suspicious activity, and helps security analysts detect potential cyber threats in real time. It combines traditional detection techniques with modern cybersecurity concepts, giving students, researchers, and professionals an easy-to-use detection platform.
+
+<table align="center">
+<tr>
+<td align="center" width="150">🔍<br><b>Monitor</b><br>Network Traffic</td>
+<td align="center" width="150">🚨<br><b>Detect</b><br>Suspicious Activity</td>
+<td align="center" width="150">📊<br><b>Visualize</b><br>Security Events</td>
+<td align="center" width="150">📝<br><b>Log</b><br>Every Detail</td>
+<td align="center" width="150">🛡️<br><b>Strengthen</b><br>Your Defenses</td>
+</tr>
+</table>
 
 ---
 
-# 🏗️ Project Architecture
+## ✨ Features
+
+| | | |
+|---|---|---|
+| ⚡ Real-time network monitoring | 🧠 Intrusion detection engine | 📦 Packet inspection |
+| 📝 Event logging | 🚨 Alert generation | 🎨 User-friendly interface |
+| 🧩 Modular architecture | 🪶 Lightweight & scalable | 🚀 Easy deployment |
+| 🎓 Beginner-friendly structure | | |
+
+---
+
+## 🎯 Objectives
+
+- 🕵️ Detect malicious network activities
+- ⏱️ Reduce response time during security incidents
+- 🎓 Provide a practical learning platform for cybersecurity enthusiasts
+- 🐍 Demonstrate IDS concepts using Python
+- 📚 Help users understand network-based attacks
+
+---
+
+## 🏗️ Project Architecture
 
 ```
-                Network Traffic
-                       │
-                       ▼
-              Packet Capture Module
-                       │
-                       ▼
-            Traffic Analysis Engine
-                       │
-        ┌──────────────┴──────────────┐
-        ▼                             ▼
- Signature Detection          Behaviour Analysis
-        │                             │
-        └──────────────┬──────────────┘
-                       ▼
-               Alert & Logging Module
-                       │
-                       ▼
-                 Dashboard / Reports
+                    🌐 Network Traffic
+                            │
+                            ▼
+                  📦 Packet Capture Module
+                            │
+                            ▼
+                🧠 Traffic Analysis Engine
+                            │
+             ┌──────────────┴──────────────┐
+             ▼                             ▼
+   🔏 Signature Detection        🧬 Behaviour Analysis
+             │                             │
+             └──────────────┬──────────────┘
+                            ▼
+                  🚨 Alert & Logging Module
+                            │
+                            ▼
+                  📊 Dashboard / Reports
 ```
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```
 SENTRY-IDS/
 │
-├── assets/
-├── config/
-├── models/
-├── logs/
-├── screenshots/
+├── assets/            🎨 Static assets
+├── config/             ⚙️ Configuration files
+├── models/             🧠 Detection models
+├── logs/                📝 Generated logs
+├── screenshots/    📸 Preview images
 ├── src/
-│   ├── detector.py
-│   ├── analyzer.py
-│   ├── capture.py
-│   ├── alerts.py
-│   └── utils.py
+│   ├── detector.py     🔍 Core detection logic
+│   ├── analyzer.py     🧠 Traffic analysis
+│   ├── capture.py       📦 Packet capture
+│   ├── alerts.py         🚨 Alert generation
+│   └── utils.py            🛠️ Helper functions
 │
-├── requirements.txt
+├── requirements.txt   📋 Dependencies
 ├── README.md
-└── main.py
+└── main.py                     ▶️ Entry point
 ```
 
 ---
 
-# ⚙️ Installation
-
-## Clone the repository
+## ⚙️ Installation
 
 ```bash
+# 1️⃣ Clone the repository
 git clone https://github.com/kharedhruva-tech/SENTRY-IDS.git
-```
 
-Move into the project directory
-
-```bash
+# 2️⃣ Move into the project directory
 cd SENTRY-IDS
-```
 
-Install dependencies
-
-```bash
+# 3️⃣ Install dependencies
 pip install -r requirements.txt
-```
 
-Run the project
-
-```bash
+# 4️⃣ Run the project
 python main.py
 ```
 
 ---
 
-# 🖥️ Usage
+## 🖥️ Usage
 
-1. Launch the application.
-2. Start network monitoring.
-3. Allow the IDS to inspect incoming traffic.
-4. View detected alerts.
-5. Analyze generated logs.
-6. Investigate suspicious activities.
+1. 🚀 Launch the application
+2. ▶️ Start network monitoring
+3. 📦 Allow the IDS to inspect incoming traffic
+4. 🚨 View detected alerts
+5. 📝 Analyze generated logs
+6. 🕵️ Investigate suspicious activities
 
 ---
 
-# 📊 Detection Workflow
+## 📊 Detection Workflow
 
 ```
-Network Packets
-       │
-       ▼
-Packet Capture
-       │
-       ▼
-Traffic Analysis
-       │
-       ▼
-Threat Detection
-       │
-       ▼
-Alert Generation
-       │
-       ▼
-Logging & Reporting
+📡 Network Packets → 📦 Packet Capture → 🧠 Traffic Analysis
+        → ⚠️ Threat Detection → 🚨 Alert Generation → 📝 Logging & Reporting
 ```
 
 ---
 
-# 💻 Technologies Used
+## 💻 Technologies Used
 
-- Python
-- Socket Programming
-- Networking
-- Cybersecurity
-- Packet Analysis
-- Machine Learning *(optional if implemented)*
-- Scapy *(if used)*
-- Tkinter / Flask *(depending on your interface)*
-- SQLite / JSON Logging *(depending on implementation)*
+<div align="center">
 
----
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Sockets](https://img.shields.io/badge/Socket_Programming-000000?style=flat-square)
+![Networking](https://img.shields.io/badge/Networking-0078D6?style=flat-square)
+![Cybersecurity](https://img.shields.io/badge/Cybersecurity-D93025?style=flat-square)
+![Scapy](https://img.shields.io/badge/Scapy-black?style=flat-square)
+![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![MachineLearning](https://img.shields.io/badge/Machine_Learning-optional-lightgrey?style=flat-square)
 
-# 📈 Future Improvements
-
-- AI-powered anomaly detection
-- Threat intelligence integration
-- SIEM integration
-- Email notifications
-- Web dashboard
-- Cloud deployment
-- Threat visualization
-- Automatic rule updates
-- Attack classification
-- Performance optimization
+</div>
 
 ---
 
-# 📸 Screenshots
+## 📈 Future Improvements
 
-You can add screenshots here.
-
-```
-screenshots/dashboard.png
-screenshots/alerts.png
-screenshots/network_monitor.png
-```
+- [ ] 🤖 AI-powered anomaly detection
+- [ ] 🌐 Threat intelligence integration
+- [ ] 🔗 SIEM integration
+- [ ] 📧 Email notifications
+- [ ] 🖥️ Web dashboard
+- [ ] ☁️ Cloud deployment
+- [ ] 📊 Threat visualization
+- [ ] 🔄 Automatic rule updates
+- [ ] 🏷️ Attack classification
+- [ ] ⚡ Performance optimization
 
 ---
 
-# 🤝 Contributing
+## 📸 Screenshots
 
-Contributions are welcome!
+<div align="center">
 
-1. Fork the repository
-2. Create a feature branch
+| Dashboard | Alerts | Network Monitor |
+|:---:|:---:|:---:|
+| _add screenshot_ | _add screenshot_ | _add screenshot_ |
+| `screenshots/dashboard.png` | `screenshots/alerts.png` | `screenshots/network_monitor.png` |
+
+</div>
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how to get started:
 
 ```bash
+# 1️⃣ Fork the repository
+
+# 2️⃣ Create a feature branch
 git checkout -b feature/new-feature
-```
 
-3. Commit your changes
-
-```bash
+# 3️⃣ Commit your changes
 git commit -m "Added new feature"
-```
 
-4. Push to GitHub
-
-```bash
+# 4️⃣ Push to GitHub
 git push origin feature/new-feature
+
+# 5️⃣ Open a Pull Request 🎉
 ```
 
-5. Open a Pull Request
+---
+
+## 🐞 Reporting Issues
+
+Found a bug or have a feature request? [Open an issue](https://github.com/kharedhruva-tech/SENTRY-IDS/issues) and please include:
+
+- 💻 Operating System
+- 🐍 Python Version
+- ❗ Error Message
+- 🔁 Steps to Reproduce
 
 ---
 
-# 🐞 Reporting Issues
+## 👨‍💻 Author
 
-If you encounter bugs or have feature requests, please open an Issue in the GitHub repository.
+<div align="center">
 
-Include:
+### **Dhruva Khare**
+*Cybersecurity Enthusiast*
 
-- Operating System
-- Python Version
-- Error Message
-- Steps to Reproduce
+🔐 Network Security &nbsp;•&nbsp; 🎯 Penetration Testing &nbsp;•&nbsp; 🕵️ SOC Operations &nbsp;•&nbsp; 🏹 Threat Hunting &nbsp;•&nbsp; 🚨 Intrusion Detection &nbsp;•&nbsp; 🔬 Digital Forensics
 
----
+[![GitHub](https://img.shields.io/badge/GitHub-kharedhruva--tech-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kharedhruva-tech)
 
-# 👨‍💻 Author
-
-**Dhruva Khare**
-
-Cybersecurity Enthusiast
-
-- Network Security
-- Penetration Testing
-- SOC Operations
-- Threat Hunting
-- Intrusion Detection
-- Digital Forensics
-
-GitHub:
-https://github.com/kharedhruva-tech
+</div>
 
 ---
 
-# ⭐ Support
+## ⭐ Support This Project
 
-If you found this project useful:
+<div align="center">
 
-⭐ Star the repository
+If you found this project useful, please consider:
 
-🍴 Fork the project
+⭐ **Starring** the repository &nbsp;|&nbsp; 🍴 **Forking** the project &nbsp;|&nbsp; 🛠️ **Contributing** improvements &nbsp;|&nbsp; 📢 **Sharing** with the community
 
-🛠️ Contribute improvements
-
-📢 Share it with the cybersecurity community
+</div>
 
 ---
 
-# 📄 License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
 
----
+<br>
 
-## 🔒 "Detect Early. Respond Faster. Stay Secure."
+<div align="center">
+
+### 🔒 *"Detect Early. Respond Faster. Stay Secure."*
 
 **SENTRY-IDS** — Protecting Networks Through Intelligent Intrusion Detection.
+
+<br>
+
+Made with ❤️ and 🐍 by [Dhruva Khare](https://github.com/kharedhruva-tech)
+
+</div>
