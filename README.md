@@ -9,6 +9,7 @@
 <br>
 
 [![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_SENTRY--IDS-brightgreen?style=for-the-badge)](https://sentry-ids.onrender.com)
+[![Download APK](https://img.shields.io/badge/📱_DOWNLOAD-APK-blue?style=for-the-badge&logo=android&logoColor=white)](./SENTRY-IDS.apk)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-0078D6?style=for-the-badge&logo=windows&logoColor=white)
@@ -140,6 +141,20 @@ pip install -r requirements.txt
 # 4️⃣ Run the project
 python main.py
 ```
+
+---
+
+## 📱 Download the Android App
+
+<div align="center">
+
+[![Download APK](https://img.shields.io/badge/⬇️_Download_SENTRY--IDS-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](./SENTRY-IDS.apk)
+
+Prefer the mobile app? Grab the latest APK and install it directly on your Android device.
+
+</div>
+
+> ⚠️ Since the APK isn't from the Play Store, you'll need to enable **"Install from Unknown Sources"** in your device settings before installing.
 
 ---
 
