@@ -1,0 +1,173 @@
+{% extends "layout.html" %}
+
+{% block page_name %}dashboard{% endblock %}
+{% block active_menu %}dashboard{% endblock %}
+{% block section_title %}Live Threat Security Overview{% endblock %}
+
+{% block content %}
+<!-- METRICS CARDS ROW -->
+<div class="metrics-row">
+    <div class="metric-card glass-panel">
+        <div class="metric-details">
+            <h3>Packets Sniffed</h3>
+            <div id="metric-total-packets" class="metric-value">{{ total_packets }}</div>
+        </div>
+        <div class="metric-icon">
+            <i class="fas fa-network-wired"></i>
+        </div>
+    </div>
+    
+    <div class="metric-card glass-panel">
+        <div class="metric-details">
+            <h3>Threat Incidents</h3>
+            <div id="metric-total-alerts" class="metric-value">{{ total_alerts }}</div>
+        </div>
+        <div class="metric-icon" style="color: var(--neon-magenta); text-shadow: var(--glow-magenta); border-color: rgba(255,0,127,0.15); background: rgba(255,0,127,0.03);">
+            <i class="fas fa-triangle-exclamation"></i>
+        </div>
+    </div>
+    
+    <div class="metric-card glass-panel">
+        <div class="metric-details">
+            <h3>Packet Flow Rate</h3>
+            <div class="metric-value"><span id="metric-pps">0</span> <span style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">PPS</span></div>
+        </div>
+        <div class="metric-icon" style="color: var(--neon-green); text-shadow: var(--glow-green); border-color: rgba(57,255,20,0.15); background: rgba(57,255,20,0.03);">
+            <i class="fas fa-gauge-high"></i>
+        </div>
+    </div>
+    
+    <div class="metric-card glass-panel">
+        <div class="metric-details">
+            <h3>Threat Threat Assessment</h3>
+            <div id="metric-threat-level" class="metric-value" style="font-size: 20px; color: {% if total_alerts > 15 %}var(--neon-red){% elif total_alerts > 0 %}var(--neon-yellow){% else %}var(--neon-green){% endif %};">
+                {% if total_alerts > 15 %}
+                    CRITICAL
+                {% elif total_alerts > 0 %}
+                    ELEVATED
+                {% else %}
+                    NOMINAL
+                {% endif %}
+            </div>
+        </div>
+        <div class="metric-icon" style="color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,230,0,0.3); border-color: rgba(255,230,0,0.15); background: rgba(255,230,0,0.03);">
+            <i class="fas fa-shield-halved"></i>
+        </div>
+    </div>
+</div>
+
+<!-- ANALYTICS CHARTS ROW -->
+<div class="analytics-row">
+    <!-- Throughput Line chart -->
+    <div class="chart-card glass-panel">
+        <div class="card-header">
+            <span class="card-title"><i class="fas fa-wave-square"></i> Real-time Traffic Volume</span>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-throughput"></canvas>
+        </div>
+    </div>
+    
+    <!-- Threat severity distribution chart -->
+    <div class="chart-card glass-panel">
+        <div class="card-header">
+            <span class="card-title"><i class="fas fa-circle-exclamation"></i> Severity Breakdowns</span>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-threats"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="analytics-row" style="grid-template-columns: 1fr 1fr; margin-top: -6px;">
+    <!-- Port target distributions -->
+    <div class="chart-card glass-panel">
+        <div class="card-header">
+            <span class="card-title"><i class="fas fa-door-open"></i> Top Targeted Destination Ports</span>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-ports"></canvas>
+        </div>
+    </div>
+    
+    <!-- Live alert logs feed list -->
+    <div class="chart-card glass-panel">
+        <div class="card-header">
+            <span class="card-title" style="color: var(--neon-magenta);"><i class="fas fa-circle-exclamation"></i> Live Alert Feed</span>
+        </div>
+        <div class="alert-feed-list" id="alert-feed-list">
+            {% if recent_alerts %}
+                {% for alert in recent_alerts %}
+                    <div class="alert-feed-item glass-panel">
+                        <div class="alert-feed-header">
+                            <span class="badge badge-{{ alert.severity|lower }}">{{ alert.severity }}</span>
+                            <span class="alert-time">{{ alert.timestamp.strftime('%H:%M:%S') }}</span>
+                        </div>
+                        <div class="alert-msg"><b>{{ alert.category }}</b>: {{ alert.message }}</div>
+                        <div class="alert-meta">
+                            <span>IP: {{ alert.src_ip }} &rarr; {{ alert.dst_ip }}</span>
+                            {% if alert.is_ml %}
+                                <span class="ml-tag"><i class="fas fa-brain"></i> ML AI</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted" style="text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 13px;">
+                    <i class="fas fa-circle-check" style="font-size: 24px; color: var(--neon-green); display: block; margin-bottom: 10px;"></i>
+                    No alerts recorded in the current session.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- LIVE CAPTURED TRAFFIC GRID -->
+<div class="table-card glass-panel">
+    <div class="card-header">
+        <span class="card-title"><i class="fas fa-ethernet"></i> Live Packet Feed</span>
+    </div>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Source IP</th>
+                    <th>Destination IP</th>
+                    <th>Protocol</th>
+                    <th>Src Port</th>
+                    <th>Dst Port</th>
+                    <th>Length</th>
+                    <th>Classification</th>
+                </tr>
+            </thead>
+            <tbody id="live-packets-tbody">
+                {% if recent_packets %}
+                    {% for p in recent_packets %}
+                        <tr>
+                            <td class="mono">{{ p.timestamp.strftime('%H:%M:%S') }}</td>
+                            <td>{{ p.src_ip }}</td>
+                            <td>{{ p.dst_ip }}</td>
+                            <td><span class="badge-protocol proto-{{ p.protocol|lower }}">{{ p.protocol }}</span></td>
+                            <td class="mono">{{ p.src_port or '-' }}</td>
+                            <td class="mono">{{ p.dst_port or '-' }}</td>
+                            <td class="mono">{{ p.length }} B</td>
+                            <td>
+                                {% if p.classification == 'Normal' %}
+                                    <span class="badge badge-low">Normal</span>
+                                {% else %}
+                                    <span class="badge badge-critical">{{ p.classification }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: var(--text-muted);">Awaiting packet stream...</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

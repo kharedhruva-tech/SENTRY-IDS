@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block page_name %}logs{% endblock %}
+{% block active_menu %}logs{% endblock %}
+{% block section_title %}Historical Traffic Database{% endblock %}
+
+{% block content %}
+<!-- FILTER AND EXPORT PANEL -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    
+    <div class="table-card glass-panel" style="padding: 15px 20px;">
+        <div class="controls-row">
+            <div class="filters-wrapper">
+                <label style="font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">Search Logs:</label>
+                
+                <input type="text" id="filter-ip" class="form-control" placeholder="Source IP..." style="width: 180px; padding: 6px 12px; font-size: 13px;" value="{{ selected_ip or '' }}">
+                
+                <select id="filter-proto" class="select-control" style="padding: 7px 16px;">
+                    <option value="">All Protocols</option>
+                    <option value="TCP" {% if selected_proto == 'TCP' %}selected{% endif %}>TCP</option>
+                    <option value="UDP" {% if selected_proto == 'UDP' %}selected{% endif %}>UDP</option>
+                    <option value="ICMP" {% if selected_proto == 'ICMP' %}selected{% endif %}>ICMP</option>
+                    <option value="OTHER" {% if selected_proto == 'OTHER' %}selected{% endif %}>OTHER</option>
+                </select>
+                
+                <button id="apply-logs-filter" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-magnifying-glass"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PDF/CSV EXPORTS CARD -->
+    <div class="table-card glass-panel" style="padding: 15px 20px;">
+        <div class="card-header" style="margin-bottom: 12px; padding-bottom: 6px;">
+            <span class="card-title" style="font-size: 13px;"><i class="fas fa-file-export"></i> Document Audits</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <a href="{{ url_for('download_report', file_type='pdf') }}" class="btn btn-primary btn-sm" style="flex-grow: 1; justify-content: center;">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
+            <a href="{{ url_for('download_report', file_type='csv') }}" class="btn btn-secondary btn-sm" style="flex-grow: 1; justify-content: center;">
+                <i class="fas fa-file-csv"></i> Export CSV
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- TRAFFIC DB GRID -->
+<div class="table-card glass-panel">
+    <div class="card-header">
+        <span class="card-title"><i class="fas fa-database"></i> Captured Packets Database</span>
+        <span style="font-size: 12px; color: var(--text-secondary);">Showing last 100 entries</span>
+    </div>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Source IP</th>
+                    <th>Destination IP</th>
+                    <th>Protocol</th>
+                    <th>Src Port</th>
+                    <th>Dst Port</th>
+                    <th>Length</th>
+                    <th>Classification / Payload Digest</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if packets %}
+                    {% for p in packets %}
+                        <tr>
+                            <td class="mono">{{ p.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ p.src_ip }}</td>
+                            <td>{{ p.dst_ip }}</td>
+                            <td><span class="badge-protocol proto-{{ p.protocol|lower }}">{{ p.protocol }}</span></td>
+                            <td class="mono">{{ p.src_port or '-' }}</td>
+                            <td class="mono">{{ p.dst_port or '-' }}</td>
+                            <td class="mono">{{ p.length }} B</td>
+                            <td>
+                                {% if p.classification == 'Normal' %}
+                                    <span style="color: var(--text-muted); font-size: 11px;">
+                                        {{ p.payload_summary[:60] or 'No Payload (Header Only)' }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-critical" style="font-size: 9px; padding: 2px 6px;">{{ p.classification }}</span>
+                                    <span style="color: var(--neon-red); font-size: 11px; margin-left: 6px;">
+                                        {{ p.payload_summary[:50] }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px 0;">No logs matching query filters.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block page_name %}alerts{% endblock %}
+{% block active_menu %}alerts{% endblock %}
+{% block section_title %}Incident Management & Alerts{% endblock %}
+
+{% block content %}
+<!-- CONTROLS & FILTER ROW -->
+<div class="table-card glass-panel" style="padding: 15px 20px;">
+    <div class="controls-row">
+        <div class="filters-wrapper">
+            <label style="font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">Filters:</label>
+            
+            <select id="filter-severity" class="select-control">
+                <option value="">All Severities</option>
+                <option value="Critical" {% if selected_severity == 'Critical' %}selected{% endif %}>Critical</option>
+                <option value="High" {% if selected_severity == 'High' %}selected{% endif %}>High</option>
+                <option value="Medium" {% if selected_severity == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="Low" {% if selected_severity == 'Low' %}selected{% endif %}>Low</option>
+            </select>
+            
+            <select id="filter-category" class="select-control">
+                <option value="">All Categories</option>
+                {% for cat in unique_categories %}
+                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+            
+            <button id="apply-alerts-filter" class="btn btn-secondary btn-sm">
+                <i class="fas fa-filter"></i> Apply Filters
+            </button>
+        </div>
+        
+        <div style="font-size: 13px; color: var(--text-secondary);">
+            Logged Incidents: <b>{{ total_alerts }}</b>
+        </div>
+    </div>
+</div>
+
+<!-- HISTORICAL ALERTS GRID -->
+<div class="table-card glass-panel">
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>Category</th>
+                    <th>Severity</th>
+                    <th>Source IP</th>
+                    <th>Destination IP</th>
+                    <th>Engine</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if alerts %}
+                    {% for alert in alerts %}
+                        <tr>
+                            <td class="mono">#{{ alert.id }}</td>
+                            <td class="mono">{{ alert.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td><b>{{ alert.category }}</b></td>
+                            <td><span class="badge badge-{{ alert.severity|lower }}">{{ alert.severity }}</span></td>
+                            <td>{{ alert.src_ip }}</td>
+                            <td>{{ alert.dst_ip }}</td>
+                            <td>
+                                {% if alert.is_ml %}
+                                    <span class="ml-tag"><i class="fas fa-brain"></i> ML Anomaly</span>
+                                {% else %}
+                                    <span style="font-size: 11px; color: var(--text-secondary);">Signature</span>
+                                {% endif %}
+                            </td>
+                            <td><span class="badge badge-{{ alert.status|lower }}">{{ alert.status }}</span></td>
+                            <td>
+                                <button class="btn btn-secondary btn-sm view-alert-details" data-id="{{ alert.id }}">
+                                    <i class="fas fa-circle-info"></i> Investigate
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px 0;">No matching threat alerts found in history.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ALERT DETAILS MODAL -->
+<div id="details-modal" class="modal-backdrop">
+    <div class="modal-container glass-panel">
+        <div class="card-header">
+            <span class="card-title" style="color: var(--neon-cyan); font-size: 16px;">
+                <i class="fas fa-user-secret"></i> Threat Incident Investigation
+            </span>
+            <button id="close-details-modal" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="modal-body" style="font-size: 13px; line-height: 1.5; max-height: 70vh; overflow-y: auto;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Alert ID</label>
+                    <div id="detail-id" class="mono" style="font-weight: bold;">-</div>
+                </div>
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Timestamp</label>
+                    <div id="detail-time" class="mono">-</div>
+                </div>
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Classification Category</label>
+                    <div id="detail-category" style="font-weight: 600;">-</div>
+                </div>
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Severity Rating</label>
+                    <div><span id="detail-severity" class="badge">-</span></div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: 6px;">
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Source Attacking IP</label>
+                    <div id="detail-src" class="mono" style="font-weight: 600; color: var(--neon-magenta);">-</div>
+                </div>
+                <div>
+                    <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Target Destination IP</label>
+                    <div id="detail-dst" class="mono" style="font-weight: 600;">-</div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Triggering Threat Message</label>
+                <div id="detail-msg" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.04); margin-top: 4px;">-</div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="color: var(--text-muted); font-size: 11px; text-transform: uppercase;">Detection Engine Attribution</label>
+                <div id="detail-engine" class="mono" style="color: var(--neon-cyan); margin-top: 4px;">-</div>
+            </div>
+            
+            <!-- GEOLOCATION SECTION -->
+            <div class="geoip-map-box">
+                <h4 style="color: var(--neon-cyan); margin-bottom: 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <i class="fas fa-earth-americas"></i> Attacker Geolocation Intel
+                </h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+                    <div>Country: <span id="geo-country" style="font-weight: 600;">-</span></div>
+                    <div>Region: <span id="geo-region" style="font-weight: 600;">-</span></div>
+                    <div>City: <span id="geo-city" style="font-weight: 600;">-</span></div>
+                    <div>ISP: <span id="geo-isp" style="font-weight: 600;">-</span></div>
+                </div>
+                <div style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+                    Geolocation Coordinates: <span id="geo-coords" class="map-coord-tag">-</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STATUS FORM AND ACTIONS -->
+        <div class="modal-footer">
+            {% if current_user.role in ['Admin', 'Analyst'] %}
+                <form id="update-status-form" method="POST" style="display: flex; align-items: center; gap: 10px; margin-right: auto;">
+                    <label for="modal-status-select" style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase;">Status:</label>
+                    <select id="modal-status-select" name="status" class="select-control" style="padding: 6px 12px; font-size: 12px;">
+                        <option value="Active">Active</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Muted">Muted</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-floppy-disk"></i> Update
+                    </button>
+                </form>
+            {% endif %}
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('details-modal').classList.remove('show')">
+                Close View
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block page_name %}settings{% endblock %}
+{% block active_menu %}settings{% endblock %}
+{% block section_title %}IDS Settings & Machine Learning Configuration{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+
+    <!-- MACHINE LEARNING CONFIGURATION CARD -->
+    <div class="chart-card glass-panel" style="min-height: auto;">
+        <div class="card-header">
+            <span class="card-title"><i class="fas fa-brain"></i> Machine Learning Anomaly Detection</span>
+        </div>
+        <div style="font-size: 13px; line-height: 1.6;">
+            <p style="margin-bottom: 12px;">
+                The IDS incorporates an unsupervised <b>Isolation Forest</b> model to flag zero-day attacks and abnormal network traffic behavior. 
+            </p>
+            <div style="background: rgba(0,0,0,0.15); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 20px;">
+                <h4 style="color: var(--neon-cyan); font-size: 12px; text-transform: uppercase; margin-bottom: 8px;">Model Diagnostics</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
+                    <div>Model Type: <b>Isolation Forest</b></div>
+                    <div>Status: <b>Loaded & Active</b></div>
+                    <div>Serialized File: <code>ids_anomaly_model.pkl</code></div>
+                    <div>TrainingContamination: <code>10.0%</code></div>
+                </div>
+            </div>
+            
+            <h4 style="color: var(--text-secondary); font-size: 12px; text-transform: uppercase; margin-bottom: 8px;">Extracted Packet Features</h4>
+            <ul style="list-style: none; margin-bottom: 24px; padding-left: 5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; font-family: monospace;">
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>protocol (enc)</li>
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>src_port (int)</li>
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>dst_port (int)</li>
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>packet_length (bytes)</li>
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>packet_rate (pps)</li>
+                <li><i class="fas fa-circle-nodes" style="color: var(--neon-cyan); font-size: 8px; margin-right: 6px;"></i>payload_entropy (bits)</li>
+            </ul>
+            
+            {% if current_user.role == 'Admin' %}
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                    <button id="btn-train-ml" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-brain"></i> Retrain Anomaly Model
+                    </button>
+                    <small style="color: var(--text-muted); display: block; text-align: center; margin-top: 6px;">
+                        Retrains model dynamically using synthesized traffic metrics and saved history logs.
+                    </small>
+                </div>
+            {% else %}
+                <div style="background: rgba(255,255,255,0.01); border: 1px dashed rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; text-align: center; font-size: 11px; color: var(--text-muted);">
+                    <i class="fas fa-lock"></i> Training control requires administrator permissions level.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- BLACKLIST THREAT INTELLIGENCE -->
+    <div class="chart-card glass-panel" style="min-height: auto;">
+        <div class="card-header">
+            <span class="card-title" style="color: var(--neon-magenta);"><i class="fas fa-user-slash"></i> IP Blacklist Intelligence</span>
+        </div>
+        
+        <!-- Add IP Form (Admin/Analyst) -->
+        {% if current_user.role in ['Admin', 'Analyst'] %}
+            <form action="{{ url_for('add_blacklist') }}" method="POST" style="margin-bottom: 20px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="ip_address" class="form-control" placeholder="Target IP to block (e.g. 8.8.8.8)" style="flex-grow: 2; padding: 8px 12px; font-size: 13px;" required>
+                    <input type="text" name="description" class="form-control" placeholder="Context description..." style="flex-grow: 3; padding: 8px 12px; font-size: 13px;" required>
+                    <button type="submit" class="btn btn-danger btn-sm" style="flex-shrink: 0; padding: 8px 16px;">
+                        <i class="fas fa-ban"></i> Block
+                    </button>
+                </div>
+            </form>
+        {% endif %}
+        
+        <!-- Blacklisted IPs Table -->
+        <div style="flex-grow: 1; max-height: 320px; overflow-y: auto;">
+            <table class="data-table" style="font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th>Blocked IP</th>
+                        <th>Description</th>
+                        <th>Blocked On</th>
+                        {% if current_user.role in ['Admin', 'Analyst'] %}
+                            <th>Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if blacklist %}
+                        {% for ip in blacklist %}
+                            <tr>
+                                <td class="mono" style="color: var(--neon-magenta); font-weight: 600;">{{ ip.ip_address }}</td>
+                                <td>{{ ip.description }}</td>
+                                <td class="mono" style="font-size: 11px; color: var(--text-muted);">{{ ip.added_at.strftime('%Y-%m-%d') }}</td>
+                                {% if current_user.role in ['Admin', 'Analyst'] %}
+                                    <td>
+                                        <form action="{{ url_for('delete_blacklist', ip_id=ip.id) }}" method="POST" style="margin:0;">
+                                            <button type="submit" class="btn btn-danger btn-sm" style="padding: 3px 8px; font-size: 10px;" title="Unblock IP">
+                                                <i class="fas fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted);">No blacklisted IPs registered.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

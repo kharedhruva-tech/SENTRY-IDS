@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER // SENTRY-IDS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body class="auth-page">
+    <div class="auth-card glass-panel">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h1 class="auth-title">OPERATOR REGISTRATION</h1>
+            <p class="auth-subtitle">Configure access credentials & permissions</p>
+        </div>
+        
+        <!-- Local errors container mapped to auth.js -->
+        <div id="error-banner" class="alert-banner alert-banner-error" style="display: none;"></div>
+        
+        <!-- Flask flash container -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-banner alert-banner-{% if category == 'error' %}error{% else %}success{% endif %}">
+                        <i class="fas {% if category == 'error' %}fa-triangle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form id="register-form" action="{{ url_for('register') }}" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="e.g. j.doe" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="role">Access Level / Role</label>
+                <select id="role" name="role" class="form-control select-control" style="background: rgba(11, 14, 28, 0.8);" required>
+                    <option value="Viewer">Viewer (Read-only)</option>
+                    <option value="Analyst">Analyst (Review Threats & Export)</option>
+                    <option value="Admin">Admin (Full System Controls)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Min. 6 characters" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Re-enter password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+                <i class="fas fa-plus"></i> Initialize Account
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already configured? <a href="{{ url_for('login_page') }}">Log in here</a></p>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>
