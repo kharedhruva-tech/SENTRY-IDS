@@ -9,7 +9,7 @@
 <br>
 
 [![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_SENTRY--IDS-brightgreen?style=for-the-badge)](https://sentry-ids.onrender.com)
-[![Download APK](https://img.shields.io/badge/📱_DOWNLOAD-APK-blue?style=for-the-badge&logo=android&logoColor=white)](./SENTRY-IDS.apk)
+[![Download APK](https://img.shields.io/badge/📱_DOWNLOAD-APK-blue?style=for-the-badge&logo=android&logoColor=white)](https://github.com/kharedhruva-tech/SENTRY-IDS/releases/download/SENTRY-IDS/_SENTRY_IDS_v1.2.apk)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-0078D6?style=for-the-badge&logo=windows&logoColor=white)
