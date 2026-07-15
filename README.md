@@ -1,96 +1,289 @@
-# SENTRY-IDS // Advanced Intrusion Detection System & Dashboard
+# 🛡️ SENTRY-IDS
+### Intelligent Network Intrusion Detection System
 
-Sentry-IDS is a professional, cybersecurity-themed Intrusion Detection System (IDS) featuring a modern dark/neon glassmorphic web dashboard. It combines traditional rule-based threat signature matching and heuristic counters with machine learning anomaly detection to track and isolate malicious network activity.
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-green)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
----
+SENTRY-IDS is an intelligent **Intrusion Detection System (IDS)** designed to monitor network traffic, identify suspicious activities, and assist security analysts in detecting potential cyber threats in real time.
 
-## Key Features
-
-1. **Real-time Packet Analysis**: Captures live traffic (TCP, UDP, ICMP) utilizing Scapy.
-2. **Dual-engine Detection System**:
-   - **Heuristics**: Tracks unique ports hit (Port Scan), packet frequencies (DDoS), and rapid auth connections (Brute-Force).
-   - **Signatures**: Payload scanning for SQL Injection (SQLi), Cross-Site Scripting (XSS), Path Traversal, and Remote Code Execution (RCE) patterns.
-3. **Machine Learning Classifier**: Trains an unsupervised **Isolation Forest** model to detect anomaly profiles (zero-day spikes, unusual ports, high-entropy encrypted C2 beacons).
-4. **Threat Intelligence Integration**: Locally cached **GeoIP Geolocation lookup** maps coordinates, country, and ISP details of external attacking IPs.
-5. **Role-Based Access Control**: Separate permissions for **Admin** (retrain models, modify blacklist, add users), **Analyst** (mute/resolve incidents, export reports), and **Viewer** (read-only grid review).
-6. **Executive Reporting**: Dynamic on-the-fly downloads for raw threat logs in **CSV** format and summary reports in **PDF** (rendered with tables and metrics cards).
-7. **Zero-Configuration Fallback**: Instantly starts in **Simulated Traffic mode** if Scapy permissions or network driver captures are denied, ensuring the dashboard flows with data out-of-the-box.
+The project combines traditional detection techniques with modern cybersecurity concepts to provide an easy-to-use platform for students, researchers, and cybersecurity professionals.
 
 ---
 
-## Project Structure
+# 📖 Overview
+
+Modern networks face countless attacks every day, ranging from brute-force attempts to malware communication and unauthorized access.
+
+SENTRY-IDS helps users:
+
+- 🔍 Monitor network traffic
+- 🚨 Detect suspicious activities
+- 📊 Visualize security events
+- 📝 Generate detailed logs
+- 📈 Improve network visibility
+- 🛡️ Strengthen defensive security
+
+---
+
+# ✨ Features
+
+- Real-time network monitoring
+- Intrusion detection engine
+- Packet inspection
+- Event logging
+- Alert generation
+- User-friendly interface
+- Modular architecture
+- Lightweight and scalable
+- Easy deployment
+- Beginner-friendly project structure
+
+---
+
+# 🎯 Objectives
+
+The primary goal of SENTRY-IDS is to:
+
+- Detect malicious network activities.
+- Reduce response time during security incidents.
+- Provide a practical learning platform for cybersecurity enthusiasts.
+- Demonstrate IDS concepts using Python.
+- Help users understand network-based attacks.
+
+---
+
+# 🏗️ Project Architecture
 
 ```
-c:\Users\Dhruva\OneDrive\Desktop\pp\
-├── app.py                     # Main Flask web controller, session routing, and SSE APIs
-├── config.py                  # Threat thresholds, database files, and model configs
-├── database.py                # Flask-SQLAlchemy models (User, PacketLog, Alert, BlacklistIP)
-├── detector.py                # Pattern-matching signatures and stateful scan thresholds
-├── ml_engine.py               # Feature preprocessors, Shannon payload entropy, IsolationForest model
-├── report_generator.py        # ReportLab PDF design layouts and CSV string writers
-├── requirements.txt           # Required third-party libraries list
-├── sniffer.py                 # Thread manager wrapping Scapy and high-fidelity Traffic Simulator
-├── threat_intel.py            # GeoIP API caching services and IP blacklist checkers
-├── static/
-│   ├── css/
-│   │   └── dashboard.css      # Neon-cyberpunk custom glassmorphism stylesheet
-│   └── js/
-│       ├── auth.js            # Frontend credentials form password validators
-│       └── dashboard.js       # Chart.js updates, SSE generators listeners, and modal detail actions
-└── templates/
-    ├── layout.html            # Master frame layout containing navigation sidebar
-    ├── login.html             # Login form
-    ├── register.html          # Registration form
-    ├── dashboard.html         # Live stats cards, chart grids, live streams
-    ├── alerts.html            # Filtering lists, alert resolution models
-    ├── logs.html              # Search grid interfaces and report launchers
-    └── settings.html          # ML retraining logs and IP blocking forms
+                Network Traffic
+                       │
+                       ▼
+              Packet Capture Module
+                       │
+                       ▼
+            Traffic Analysis Engine
+                       │
+        ┌──────────────┴──────────────┐
+        ▼                             ▼
+ Signature Detection          Behaviour Analysis
+        │                             │
+        └──────────────┬──────────────┘
+                       ▼
+               Alert & Logging Module
+                       │
+                       ▼
+                 Dashboard / Reports
 ```
 
 ---
 
-## Installation & Setup
+# 📂 Project Structure
 
-### 1. Prerequisites
-- **Python 3.8+** must be installed on your system.
-- *(Optional for Live Sniffing)*: **Npcap** (Windows) or **libpcap** (Linux/macOS) is required to run live network traffic sniffing. If absent, Sentry-IDS will gracefully fall back to generating simulated network events automatically.
+```
+SENTRY-IDS/
+│
+├── assets/
+├── config/
+├── models/
+├── logs/
+├── screenshots/
+├── src/
+│   ├── detector.py
+│   ├── analyzer.py
+│   ├── capture.py
+│   ├── alerts.py
+│   └── utils.py
+│
+├── requirements.txt
+├── README.md
+└── main.py
+```
 
-### 2. Install Dependencies
-Open a terminal in the project directory and run:
+---
+
+# ⚙️ Installation
+
+## Clone the repository
+
+```bash
+git clone https://github.com/kharedhruva-tech/SENTRY-IDS.git
+```
+
+Move into the project directory
+
+```bash
+cd SENTRY-IDS
+```
+
+Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run Sentry-IDS
-Execute the server using:
+Run the project
+
 ```bash
-python app.py
+python main.py
 ```
-The server will initialize the SQLite database, seed default users, construct the initial Machine Learning model, start the packet sniffer, and host the web console locally.
-
-**Console URL**: `http://127.0.0.1:5000`
 
 ---
 
-## Seed Accounts (Ready for Use)
+# 🖥️ Usage
 
-You can log in immediately using these default accounts:
-
-| Username | Password | Role | Console Privileges |
-| :--- | :--- | :--- | :--- |
-| **`admin`** | `admin123` | **Admin** | Retrain ML model, manage blacklists, configure users, download reports, read dashboards. |
-| **`analyst`** | `analyst123` | **Analyst** | Change alert status (resolve/mute), inspect IP geolocations, download reports. |
-| **`viewer`** | `viewer123` | **Viewer** | Read-only dashboards and packet tables. |
-
-You can also use the registration form to create custom usernames matching these roles.
+1. Launch the application.
+2. Start network monitoring.
+3. Allow the IDS to inspect incoming traffic.
+4. View detected alerts.
+5. Analyze generated logs.
+6. Investigate suspicious activities.
 
 ---
 
-## Core Technologies
-- **Backend Framework**: Flask
-- **Database Engine**: SQLite (Flask-SQLAlchemy ORM)
-- **Real-Time Data Flow**: Server-Sent Events (SSE)
-- **Machine Learning**: Scikit-Learn (Isolation Forest)
-- **Packet Extraction**: Scapy
-- **Visualizations**: Chart.js (Line, Doughnut, Bar charts)
-- **PDF Compilation**: ReportLab Flowables
+# 📊 Detection Workflow
+
+```
+Network Packets
+       │
+       ▼
+Packet Capture
+       │
+       ▼
+Traffic Analysis
+       │
+       ▼
+Threat Detection
+       │
+       ▼
+Alert Generation
+       │
+       ▼
+Logging & Reporting
+```
+
+---
+
+# 💻 Technologies Used
+
+- Python
+- Socket Programming
+- Networking
+- Cybersecurity
+- Packet Analysis
+- Machine Learning *(optional if implemented)*
+- Scapy *(if used)*
+- Tkinter / Flask *(depending on your interface)*
+- SQLite / JSON Logging *(depending on implementation)*
+
+---
+
+# 📈 Future Improvements
+
+- AI-powered anomaly detection
+- Threat intelligence integration
+- SIEM integration
+- Email notifications
+- Web dashboard
+- Cloud deployment
+- Threat visualization
+- Automatic rule updates
+- Attack classification
+- Performance optimization
+
+---
+
+# 📸 Screenshots
+
+You can add screenshots here.
+
+```
+screenshots/dashboard.png
+screenshots/alerts.png
+screenshots/network_monitor.png
+```
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+
+```bash
+git checkout -b feature/new-feature
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature/new-feature
+```
+
+5. Open a Pull Request
+
+---
+
+# 🐞 Reporting Issues
+
+If you encounter bugs or have feature requests, please open an Issue in the GitHub repository.
+
+Include:
+
+- Operating System
+- Python Version
+- Error Message
+- Steps to Reproduce
+
+---
+
+# 👨‍💻 Author
+
+**Dhruva Khare**
+
+Cybersecurity Enthusiast
+
+- Network Security
+- Penetration Testing
+- SOC Operations
+- Threat Hunting
+- Intrusion Detection
+- Digital Forensics
+
+GitHub:
+https://github.com/kharedhruva-tech
+
+---
+
+# ⭐ Support
+
+If you found this project useful:
+
+⭐ Star the repository
+
+🍴 Fork the project
+
+🛠️ Contribute improvements
+
+📢 Share it with the cybersecurity community
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🔒 "Detect Early. Respond Faster. Stay Secure."
+
+**SENTRY-IDS** — Protecting Networks Through Intelligent Intrusion Detection.
