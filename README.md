@@ -1,3 +1,14 @@
+<p align="center">
+  <a href="https://sentry-ids.onrender.com" target="_blank">
+    <img src="https://img.shields.io/badge/🚀_Live_Demo-Try_SENTRY--IDS-success?style=for-the-badge" alt="Live Demo">
+  </a>
+</p>
+
+<p align="center">
+  <strong>🔗 Live Application:</strong><br>
+  https://sentry-ids.onrender.com
+</p>
+
 # 🛡️ SENTRY-IDS
 ### Intelligent Network Intrusion Detection System
 
