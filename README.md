@@ -199,10 +199,9 @@ Found a bug or have a feature request? [Open an issue](https://github.com/khared
 **Dhruva Khare**
 *Cybersecurity Enthusiast — Network Security · Penetration Testing · SOC Operations · Threat Hunting · Digital Forensics*
 
-[![GitHub](https://img.shields.io/badge/GitHub-kharedhruva--tech-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/kharedhruva-tech)
+
 
 ---
-
 ## 📄 License
 
 This project is licensed under the **MIT License**.
