@@ -5,7 +5,6 @@
 SENTRY-IDS is a Python-based Intrusion Detection System (IDS) that captures live network traffic, analyzes it using both signature-based rules and a machine learning anomaly model, and surfaces threats through a Flask web dashboard and companion Android app.
 
 [![Live Demo](https://img.shields.io/badge/%F0%9F%9A%80_LIVE_DEMO-Try_SENTRY--IDS-brightgreen?style=for-the-badge)](https://sentry-ids.onrender.com)
-[![Download APK](https://img.shields.io/badge/%F0%9F%93%B1_DOWNLOAD-APK-blue?style=for-the-badge&logo=android&logoColor=white)](https://github.com/kharedhruva-tech/SENTRY-IDS/raw/main/SENTRY_IDS.apk)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
@@ -125,9 +124,6 @@ By default the dashboard will be available at `http://localhost:5000`.
 
 Prefer monitoring from your phone? Download the latest APK from the [Releases page](https://github.com/kharedhruva-tech/SENTRY-IDS/releases) or directly from the repo:
 
-**[⬇️ Download SENTRY-IDS APK](https://github.com/kharedhruva-tech/SENTRY-IDS/raw/main/SENTRY_IDS.apk)**
-
-> Since the APK isn't distributed via the Play Store, you'll need to enable **"Install from Unknown Sources"** in your Android device settings before installing.
 
 ---
 
