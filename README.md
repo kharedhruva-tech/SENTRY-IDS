@@ -114,7 +114,6 @@ pip install -r requirements.txt
 python app.py
 ```
 
-By default the dashboard will be available at `http://127.0.0.1:5000/login-page`.
 
 > ⚠️ Packet sniffing typically requires elevated privileges. On Linux/macOS you may need to run with `sudo`; on Windows, run your terminal as Administrator and ensure Npcap/WinPcap is installed.
 
